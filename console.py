@@ -119,18 +119,17 @@ class HBNBCommand(cmd.Cmd):
         saves it (to the JSON file) and prints the id
         Should take in 'key value' parameters
         """
-
+        my_list = args.split()
         if not args:
             print("** class name missing **")
             return
-        elif args not in HBNBCommand.classes:
+        elif my_list[0] not in HBNBCommand.classes:
             print("** class doesn't exist **")
             return
-        my_list = args.split(" ")
         class_name = my_list[0]
         params = class_name[1:]
 
-        new_instance = HBNBCommand.classes[args]()
+        new_instance = HBNBCommand.classes[class_name]()
         for param in params:
             try:
                 k, v = param.split("=")
