@@ -2,6 +2,7 @@
 """This module defines a class to manage file storage for hbnb clone"""
 import json
 import shlex
+import models
 
 
 class FileStorage:
@@ -38,9 +39,12 @@ class FileStorage:
 
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside"""
-        if obj:
-            key = "{}.{}".format(type(obj).__name__, obj.id)
+        if obj is None:
+            return
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        if key in self.__objects:
             del self.__objects[key]
+            self.save()
 
     def reload(self):
         """Loads storage dictionary from file"""
