@@ -1,15 +1,19 @@
 #!/usr/bin/python3
-""" """
+""" Unit test for Basemodel class module"""
 from models.base_model import BaseModel
 import unittest
-import datetime
+import re
+import models.engine.file_storage import FileStorage
+from datetime import datetime
 from uuid import UUID
 import json
 import os
 
 
 class test_basemodel(unittest.TestCase):
-    """ """
+    """
+        Test for BaseModel class
+    """
 
     def __init__(self, *args, **kwargs):
         """ """
@@ -22,9 +26,10 @@ class test_basemodel(unittest.TestCase):
         pass
 
     def tearDown(self):
+        """ teardownv"""
         try:
             os.remove('file.json')
-        except:
+        except Exception:
             pass
 
     def test_default(self):
@@ -57,7 +62,7 @@ class test_basemodel(unittest.TestCase):
             self.assertEqual(j[key], i.to_dict())
 
     def test_str(self):
-        """ """
+        """string test """
         i = self.value()
         self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
                          i.__dict__))
@@ -97,3 +102,7 @@ class test_basemodel(unittest.TestCase):
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
+
+
+if __name__ = "__main__":
+    unittest.main()
