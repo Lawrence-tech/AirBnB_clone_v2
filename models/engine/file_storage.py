@@ -22,7 +22,7 @@ class FileStorage:
                     lis[key] = self.__objects[key]
                 return lis
         else:
-            return FileStorage.__objects
+            return self.__objects
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
