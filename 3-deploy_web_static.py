@@ -2,7 +2,7 @@
 """
 Fabric script that creates and distributes an archive to web servers.
 
-This Fabric script provides functionality to create an archive of the web_static
+This Fabric script provide functionality 2 create an archive of the web_static
 folder and distribute it to the specified web servers for deployment.
 """
 
