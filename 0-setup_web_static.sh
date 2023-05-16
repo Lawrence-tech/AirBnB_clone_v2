@@ -1,35 +1,35 @@
 #!/usr/bin/env bash
 #Bash script that sets up web servers for the deployment of web_static
 
-#!/usr/bin/env bash
+apt-get update
+apt-get install -y nginx
 
-# Install Nginx if it not already installed
-if [ $(dpkg-query -W -f='${Status}' nginx 2>/dev/null 
-| grep -c "ok installed") -eq 0 ]; then
-    sudo apt-get update
-    sudo apt-get -y install nginx
-fi
+mkdir -p /data/web_static/releases/test/
+mkdir -p /data/web_static/shared/
+echo "Holberton School" > /data/web_static/releases/test/index.html
+ln -sf /data/web_static/releases/test/ /data/web_static/current
 
-# Create necessary folders if they don't exist
-sudo mkdir -p /data/web_static/releases/test/
-sudo mkdir -p /data/web_static/shared/
-sudo mkdir -p /data/web_static/current/
+chown -R ubuntu /data/
+chgrp -R ubuntu /data/
 
-# Create a fake HTML file for testing
-echo "<html><head><title>Test HTML file</title></head><body><p>This is a test
-HTML file.</p></body></html>"
- | sudo tee /data/web_static/releases/test/index.html
+printf %s "server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    add_header X-Served-By $HOSTNAME;
+    root   /var/www/html;
+    index  index.html index.htm;
+    location /hbnb_static {
+        alias /data/web_static/current;
+        index index.html index.htm;
+    }
+    location /redirect_me {
+        return 301 http://cuberule.com/;
+    }
+    error_page 404 /404.html;
+    location /404 {
+      root /var/www/html;
+      internal;
+    }
+}" > /etc/nginx/sites-available/default
 
-# Create symbolic link /data/web_static/current
-sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
-
-# Change ownership of /data/ to ubuntu user and group
-sudo chown -R ubuntu:ubuntu /data/
-
-# Update Nginx configuration to serve content of /data/web_static/current/ to
- hbnb_static
-sudo sed -i '/listen 80 default_server;/a\\n\tlocation /hbnb_static {\n\t\
-talias /data/web_static/current/;\n\t}' /etc/nginx/sites-available/default
-
-# Restart Nginx
-sudo service nginx restart
+service nginx restart
