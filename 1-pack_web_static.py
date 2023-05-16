@@ -19,13 +19,13 @@ def do_pack():
     This function creates a compressed .tgz archive of the static files
     in the "versions" directory. The archive name includes the current
     date and time.
-    
+
     Returns:
         str: The path of the created archive file or None if archiving fails.
     """
     if not os.path.isdir("versions"):
         os.mkdir("versions")
-    
+
     d_time = datetime.now()
     output = "versions/web_static_{}{}{}{}{}{}.tgz".format(
         d_time.year,
@@ -35,7 +35,7 @@ def do_pack():
         d_time.minute,
         d_time.second
     )
-    
+
     try:
         print("Packing web_static to {}".format(output))
         local("tar -cvzf {} web_static".format(output))
@@ -43,5 +43,5 @@ def do_pack():
         print("web_static packed: {} -> {} Bytes".format(output, size))
     except Exception:
         output = None
-    
+
     return output
