@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Fabric script that distributes an archive to your web servers.
+Fabric script that distributes an archive to web servers.
 
 This Fabric script provides functionality to distribute an archive
 to the specified web servers for deployment.
@@ -10,7 +10,7 @@ from datetime import datetime
 from fabric.api import *
 import os
 
-env.hosts = ["52.91.121.146", "3.85.136.181"]
+env.hosts = ["54.209.198.21", "52.91.125.243"]
 env.user = "ubuntu"
 
 
