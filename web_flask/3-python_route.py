@@ -29,10 +29,15 @@ def cText(text):
     """
     return "C {}".format(text.replace("_", " "))
 
-@app.route('/python/', defaults={'text': 'is cool'}, strict_slashes=False)
-@app.route('/python/<text>', strict_slashes=False)
-def python_text(text):
-    """Display 'Python ' followed by the value of the text variable"""
+
+@app.route('/python', strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def pythonText(text="is cool"):
+    """
+    Display the string 'Python' followed by the value of the text variable.
+    If no text is provided, it defaults to 'is cool'.
+    Replace underscore (_) symbols with spaces in the text variable.
+    """
     return "Python {}".format(text.replace("_", " "))
 
 
